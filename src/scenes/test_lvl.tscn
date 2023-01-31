@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/player-movement.gd" type="Script" id=1]
+
+[sub_resource type="CapsuleShape" id=3]
+radius = 0.1
+height = 0.5
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 10, 0.2, 100 )
+
+[sub_resource type="ConvexPolygonShape" id=4]
+points = PoolVector3Array( 5, 0.1, 50, 5, -0.1, 50, 5, 0.1, -50, -5, 0.1, 50, -5, -0.1, 50, 5, -0.1, -50, -5, 0.1, -50, -5, -0.1, -50 )
+
+[node name="test_lvl" type="Spatial"]
+
+[node name="player" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+
+[node name="KinematicBody" type="KinematicBody" parent="player"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+script = ExtResource( 1 )
+
+[node name="rotation_helper" type="Spatial" parent="player/KinematicBody"]
+
+[node name="player_camera" type="Camera" parent="player/KinematicBody/rotation_helper"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="player/KinematicBody"]
+shape = SubResource( 3 )
+
+[node name="plane" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.159131, -3 )
+
+[node name="StaticBody" type="StaticBody" parent="plane"]
+
+[node name="MeshInstance" type="MeshInstance" parent="plane/StaticBody"]
+mesh = SubResource( 2 )
+skeleton = NodePath("../..")
+
+[node name="CollisionShape" type="CollisionShape" parent="plane/StaticBody"]
+shape = SubResource( 4 )
